@@ -279,9 +279,25 @@ public class LeaveWorkFlow {
          System.out.println("$                  VIEW ALL LEAVE REQUESTS                     $");
          System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
          System.out.println();
-	     for (LeaveRequest leaveRequest : leaveRequestsQueue) {
-	          System.out.println(leaveRequest.toString()); 
-	     }
+            // Assuming fixed column widths for simplicity
+	        String format = "| %-10s | %-12s | %-12s | %-12s | %-12s | %-20s |  %-10s | %n";
+
+	        // Printing table headers
+	        System.out.printf(format, "Leave ID", "Employee ID", "Leave Type", "Start Date", "End Date", "Reason", "Status");
+
+	        // Printing leave requests
+	        System.out.println();
+	        for (LeaveRequest leaveRequest : leaveRequestsQueue) {
+	            System.out.printf(format,
+	                    leaveRequest.getLeaveId(),
+	                    leaveRequest.getEmployeeId(),
+	                    leaveRequest.getLeaveType(),
+	                    leaveRequest.getStartDate(),
+	                    leaveRequest.getEndDate(),
+	                    leaveRequest.getReason(),
+	                    leaveRequest.getStatus()
+	            );
+	        }
 		
 	}
 	
@@ -322,7 +338,7 @@ public class LeaveWorkFlow {
             pstmt.close();
             conn.close();
         } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
+            System.out.println(e);
         }
     }
 	
@@ -334,6 +350,8 @@ public class LeaveWorkFlow {
 	 */
 	public static void viewLeaveBalance(int empId) throws ClassNotFoundException {
 		System.out.println("EMPLOYEE LEAVE BALANCE DETAILS : ");
+		System.out.println();
+		System.out.println("EMPLOYEE ID : "+empId);
 		System.out.println();
 		int casual_Leave_Balance = LeaveBalance.casualLeaveBalance(empId);
 		//System.out.println();

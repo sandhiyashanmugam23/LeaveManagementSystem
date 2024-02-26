@@ -177,6 +177,9 @@ public class Notification {
 	            boolean found = false;
 
 	            while (resultSet.next()) {
+	            	System.out.println("+-----------------+----------------------------------+------------+-------------+-------------+-------------------+");
+	                System.out.println("| Notification ID |             Message              |  Leave ID  | Employee ID | Start Date  |     End Date      |");
+	                System.out.println("+-----------------+----------------------------------+------------+-------------+-------------+-------------------+");
 	                found = true;
 	                int notificationId = resultSet.getInt("notification_id");
 	                String message = resultSet.getString("message");
@@ -184,14 +187,8 @@ public class Notification {
 	                int employeeId = resultSet.getInt("emp_id");
 	                Date start_date = resultSet.getDate("start_Date");
 	                Date end_date = resultSet.getDate("end_Date");
-
-	                System.out.println("Notification ID: " + notificationId);
-	                System.out.println("Message: " + message);
-	                System.out.println("Leave ID: " + leaveId);
-	                System.out.println("Employee ID: " + employeeId);
-	                System.out.println("Start Date : " + start_date);
-	                System.out.println("End Date : " + end_date);
-	                System.out.println("---------------------------------------");
+	                
+	                System.out.printf("| %-15d | %-32s | %-10d | %-11d | %-11s | %-17s |%n", notificationId, message, leaveId, employeeId, start_date.toString(), end_date.toString());
 	            }
 
 	            if (!found) {

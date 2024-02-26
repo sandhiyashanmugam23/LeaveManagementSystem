@@ -105,17 +105,6 @@ public class LeaveCalendar {
 	        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
 	        System.out.println();
 	        
-//	        for (LeaveRequest leaveRequest : leaveRequestsQueue) {
-//	            System.out.println("Leave ID: " + leaveRequest.getLeaveId());
-//	            System.out.println("Employee ID: " + leaveRequest.getEmployeeId());
-//	            System.out.println("Leave Type: " + leaveRequest.getLeaveType());
-//	            System.out.println("Start Date: " + leaveRequest.getStartDate());
-//	            System.out.println("End Date: " + leaveRequest.getEndDate());
-//	            System.out.println("Reason: " + leaveRequest.getReason());
-//	            System.out.println("Status: " + leaveRequest.getStatus());
-//	            System.out.println(); 
-//	        }
-	        
 	     // Assuming fixed column widths for simplicity
 	        String format = "| %-10s | %-12s | %-12s | %-12s | %-12s | %-20s |  %-10s | %n";
 
