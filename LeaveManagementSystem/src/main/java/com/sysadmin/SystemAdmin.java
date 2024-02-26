@@ -69,7 +69,7 @@ public class SystemAdmin extends Person {
 				acc.deleteRecords();
 				break;
 			case 5:
-				dm.manageDepartment();
+				dm.manageDepartment(super.getuserName(),super.getPassword());
 				break;
 			case 6:
 				Main.userRole();

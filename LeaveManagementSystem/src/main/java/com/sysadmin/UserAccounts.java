@@ -133,11 +133,11 @@ public class UserAccounts {
             ResultSet resultSet = statement.executeQuery(sql);
 
             System.out.println("EMPLOYEE DETAILS:");
-            System.out.println("--------------------------------------------------------");
+            System.out.println("--------------------------------------------------------".repeat(2));
             System.out.printf("%-10s %-15s %-15s %-10s %-15s %-20s %-15s %-15s %-15s %-15s\n",
                     "Emp ID", "First Name", "Last Name", "Dept ID", "Designation ID",
                     "Email", "Username", "Password", "Contact Number", "Address");
-            System.out.println("--------------------------------------------------------");
+            System.out.println("--------------------------------------------------------".repeat(2));
 
             while (resultSet.next()) {
                 int empId = resultSet.getInt("emp_id");
@@ -547,6 +547,7 @@ public class UserAccounts {
 	 * 
 	 * @throws ClassNotFoundException
 	 */
+	
 	public void deleteRecords() throws ClassNotFoundException {
 		System.out.println();
 		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
@@ -559,13 +560,20 @@ public class UserAccounts {
         scanner.nextLine(); 
 
         try (Connection conn = dbc.getDBConnection()) {
+        	//String sql2 = "DELETE FROM PROJECTDB.notification WHERE emp_id = ?";
         	String sql1 = "DELETE FROM PROJECTDB.leave_balance WHERE emp_id = ?";
+        	//String sql2 = "DELETE FROM PROJECTDB.notification WHERE emp_id = ?";
             String sql = "DELETE FROM PROJECTDB.employee WHERE emp_id = ?";
+            
+            //PreparedStatement statement2 = conn.prepareStatement(sql2);
             PreparedStatement statement = conn.prepareStatement(sql1);
             PreparedStatement statement1 = conn.prepareStatement(sql);
+            
+          //  statement2.setInt(1, empId);
             statement.setInt(1, empId);
             statement1.setInt(1, empId);
 
+           // int rowsDeleted2 = statement2.executeUpdate();
             int rowsDeleted = statement.executeUpdate();
             int rowsDeleted1 = statement1.executeUpdate();
             if (rowsDeleted > 0 && rowsDeleted1 > 0) {

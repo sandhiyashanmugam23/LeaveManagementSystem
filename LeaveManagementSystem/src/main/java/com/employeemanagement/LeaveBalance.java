@@ -95,9 +95,12 @@ public class LeaveBalance {
                     if (resultSet.next()) {
                         int casualLeaveBalance = resultSet.getInt("casual_leave_balance");
                         int sickLeaveBalance = resultSet.getInt("sick_leave_balance");
-                        System.out.println("Employee ID: " + id);
-                        System.out.println("Casual Leave Balance: " + casualLeaveBalance);
-                        System.out.println("Sick Leave Balance: " + sickLeaveBalance);
+                        System.out.println("_____________________________________________________");
+                        System.out.println("|                                                    |");
+                        System.out.println("|   Employee ID: " + id+"                                |");
+                        System.out.println("|   Casual Leave Balance : " + casualLeaveBalance+"                        |");
+                        System.out.println("|   Sick Leave Balance : " + sickLeaveBalance+"                          |");
+                        System.out.println("|____________________________________________________|");
                     } else {
                         System.out.println("Employee with ID " + id + " not found.");
                     }

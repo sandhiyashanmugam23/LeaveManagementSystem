@@ -382,27 +382,7 @@ public class Leave {
 	    System.out.println("EMPLOYEE ID: " + empId);
 	    
 	    try (Connection conn = dbc.getDBConnection()) {
-	        String sql = "SELECT status,leave_type FROM PROJECTDB.leave_request WHERE emp_id = ?";
-	        
-	        try (PreparedStatement statement = conn.prepareStatement(sql)) {
-	            statement.setInt(1, empId);
-	            ResultSet rs = statement.executeQuery();
-	            
-	            if (rs.next()) {
-	                String status = rs.getString("status");
-	                String leave_type = rs.getString("leave_type");
-	                
-	                if (status.equalsIgnoreCase("approved") &&((leave_type.equalsIgnoreCase("casual"))||(leave_type.equalsIgnoreCase("sick"))) ) {
-	                    // Update the leave balance only if the status is approved
-	                    updateLeaveBalance(empId,leave_type);
-	                }
-	            } else {
-	                System.out.println("Leave request with ID " + empId + " not found.");
-	                return;
-	            }
-	        }
-	         
-	        sql = "DELETE FROM PROJECTDB.leave_request WHERE emp_id = ?";
+	        String sql = "DELETE FROM PROJECTDB.leave_request WHERE emp_id = ?";
 	        try (PreparedStatement deleteStatement = conn.prepareStatement(sql)) {
 	            deleteStatement.setInt(1, empId);
 	            int rowsAffected = deleteStatement.executeUpdate();
@@ -417,78 +397,78 @@ public class Leave {
 	    }
 	}
 	
-	public static void updateLeaveBalance(int empId,String leave_type) {
-		try (Connection conn = dbc.getDBConnection()) {
-	        String sql = "SELECT start_date, end_date FROM PROJECTDB.leave_request WHERE emp_id = ?";
-	        
-	        try (PreparedStatement statement = conn.prepareStatement(sql)) {
-	            statement.setInt(1, empId);
-	            ResultSet rs = statement.executeQuery();
-	            
-	            int totalDays = 0;
-	            while (rs.next()) {
-	                java.sql.Date startDate = rs.getDate("start_date");
-	                java.sql.Date endDate = rs.getDate("end_date");
-	                
-	                long daysBetween = ChronoUnit.DAYS.between(startDate.toLocalDate(), endDate.toLocalDate());
-	                totalDays += daysBetween;
-	            }
-	            
-	            // Update leave balance here with totalDays
-	            casualUpdateLeaveBalanceInDatabase(empId, totalDays,leave_type);
-	        }
-	    } catch (SQLException e) {
-	        System.out.println(e);
-	    } catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			System.out.println(e1);
-		}
-	}
+//	public static void updateLeaveBalance(int empId,String leave_type) {
+//		try (Connection conn = dbc.getDBConnection()) {
+//	        String sql = "SELECT start_date, end_date FROM PROJECTDB.leave_request WHERE emp_id = ?";
+//	        
+//	        try (PreparedStatement statement = conn.prepareStatement(sql)) {
+//	            statement.setInt(1, empId);
+//	            ResultSet rs = statement.executeQuery();
+//	            
+//	            int totalDays = 0;
+//	            while (rs.next()) {
+//	                java.sql.Date startDate = rs.getDate("start_date");
+//	                java.sql.Date endDate = rs.getDate("end_date");
+//	                
+//	                long daysBetween = ChronoUnit.DAYS.between(startDate.toLocalDate(), endDate.toLocalDate());
+//	                totalDays += daysBetween;
+//	            }
+//	            
+//	            // Update leave balance here with totalDays
+//	            casualUpdateLeaveBalanceInDatabase(empId, totalDays,leave_type);
+//	        }
+//	    } catch (SQLException e) {
+//	        System.out.println(e);
+//	    } catch (ClassNotFoundException e1) {
+//			// TODO Auto-generated catch block
+//			System.out.println(e1);
+//		}
+//	}
+//	
+//	private static void casualUpdateLeaveBalanceInDatabase(int empId, int totalDays, String leave_type) {
+//	    if(leave_type.equalsIgnoreCase("casual")) {
+//	    	try (Connection conn = dbc.getDBConnection()) {
+//		        String updateSql = "UPDATE PROJECTDB.leave_balance SET casual_leave_balance = casual_leave_balance - ? WHERE emp_id = ?";
+//		        
+//		        try (PreparedStatement statement = conn.prepareStatement(updateSql)) {
+//		            statement.setInt(1, totalDays);
+//		            statement.setInt(2, empId);
+//		            
+//		            int rowsAffected = statement.executeUpdate();
+//		            if (rowsAffected > 0) {
+//		                System.out.println("Leave balance updated successfully for employee ID " + empId);
+//		            } else {
+//		                System.out.println("Failed to update leave balance for employee ID " + empId);
+//		            }
+//		        }
+//		    } catch (SQLException e) {
+//		        System.out.println(e);
+//		    } catch (ClassNotFoundException e1) {
+//				System.out.println(e1);
+//			}
+//	    }else if(leave_type.equalsIgnoreCase("sick")){
+//	    	try (Connection conn = dbc.getDBConnection()) {
+//		        String updateSql = "UPDATE PROJECTDB.leave_balance SET sick_leave_balance = sick_leave_balance - ? WHERE emp_id = ?";
+//		        
+//		        try (PreparedStatement statement = conn.prepareStatement(updateSql)) {
+//		            statement.setInt(1, totalDays);
+//		            statement.setInt(2, empId);
+//		            
+//		            int rowsAffected = statement.executeUpdate();
+//		            if (rowsAffected > 0) {
+//		                System.out.println("Leave balance updated successfully for employee ID " + empId);
+//		            } else {
+//		                System.out.println("Failed to update leave balance for employee ID " + empId);
+//		            }
+//		        }
+//		    } catch (SQLException e) {
+//		        System.out.println(e);
+//		    } catch (ClassNotFoundException e1) {
+//				System.out.println(e1);
+//			}
+//	    }
+//	}
 	
-	private static void casualUpdateLeaveBalanceInDatabase(int empId, int totalDays, String leave_type) {
-	    if(leave_type.equalsIgnoreCase("casual")) {
-	    	try (Connection conn = dbc.getDBConnection()) {
-		        String updateSql = "UPDATE PROJECTDB.leave_balance SET casual_leave_balance = casual_leave_balance - ? WHERE emp_id = ?";
-		        
-		        try (PreparedStatement statement = conn.prepareStatement(updateSql)) {
-		            statement.setInt(1, totalDays);
-		            statement.setInt(2, empId);
-		            
-		            int rowsAffected = statement.executeUpdate();
-		            if (rowsAffected > 0) {
-		                System.out.println("Leave balance updated successfully for employee ID " + empId);
-		            } else {
-		                System.out.println("Failed to update leave balance for employee ID " + empId);
-		            }
-		        }
-		    } catch (SQLException e) {
-		        System.out.println(e);
-		    } catch (ClassNotFoundException e1) {
-				System.out.println(e1);
-			}
-	    }else if(leave_type.equalsIgnoreCase("sick")){
-	    	try (Connection conn = dbc.getDBConnection()) {
-		        String updateSql = "UPDATE PROJECTDB.leave_balance SET sick_leave_balance = sick_leave_balance - ? WHERE emp_id = ?";
-		        
-		        try (PreparedStatement statement = conn.prepareStatement(updateSql)) {
-		            statement.setInt(1, totalDays);
-		            statement.setInt(2, empId);
-		            
-		            int rowsAffected = statement.executeUpdate();
-		            if (rowsAffected > 0) {
-		                System.out.println("Leave balance updated successfully for employee ID " + empId);
-		            } else {
-		                System.out.println("Failed to update leave balance for employee ID " + empId);
-		            }
-		        }
-		    } catch (SQLException e) {
-		        System.out.println(e);
-		    } catch (ClassNotFoundException e1) {
-				System.out.println(e1);
-			}
-	    }
-	}
-
 	/**
 	 * employee can able to modify the leave request
 	 * 

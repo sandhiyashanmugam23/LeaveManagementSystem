@@ -17,6 +17,7 @@ public class Main{
 
 	
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, LeaveException {
+		
 		System.out.println();
         System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
         System.out.println("$           LEAVE MANAGEMENT SYSTEM APPLICATION                $");
@@ -28,8 +29,6 @@ public class Main{
 	
     public static void userRole() throws SQLException, ClassNotFoundException, LeaveException {
 		
-    	
-        
         //System.out.println("$".repeat(60));
         try {
         do {

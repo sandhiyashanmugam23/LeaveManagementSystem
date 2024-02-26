@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import com.exception.LeaveException;
+import com.leavemangement.Account;
+
 import DBConnection.DatabaseConnector;
 
 /**
@@ -29,7 +32,7 @@ public class DepartmentManagement {
      * @throws ClassNotFoundException
      * @throws SQLException
      */
-	public void manageDepartment() throws ClassNotFoundException, SQLException {
+	public void manageDepartment(String userName,String password) throws ClassNotFoundException, SQLException {
 		
 		
 		
@@ -40,7 +43,8 @@ public class DepartmentManagement {
 			System.out.println("2. READ DEPARTMENT");
 			System.out.println("3. UPDATE DEPARTMENT");
 			System.out.println("4. REMOVE DEPARTMENT");
-			System.out.println("5. EXIT");
+			System.out.println("5. MOVE TO PREVIOUS");
+			System.out.println("6. EXIT");
 			System.out.println();
 			System.out.print("ENTER YOUR CHOICE : ");
 			int choice = sc.nextInt();
@@ -58,6 +62,11 @@ public class DepartmentManagement {
 				deleteDepartments();
 				break;
 			case 5:
+				Account acc = new Account(userName,password);
+				SystemAdmin admin = new SystemAdmin(acc);
+				admin.menuDisplay();
+				break;
+			case 6:
 				System.out.println("<--- (: THANK YOU FOR USING THIS APLLICATION !!! :) --->");
 				System.exit(0);
 				break;
@@ -68,6 +77,8 @@ public class DepartmentManagement {
 		}while(true);
 		}catch(InputMismatchException e) {
 			System.out.println("Please Enter Integer Values !!!");
+		} catch (LeaveException e) {
+			System.out.println(e);
 		}
 	}
 	
